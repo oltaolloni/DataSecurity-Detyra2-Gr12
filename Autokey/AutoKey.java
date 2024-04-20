@@ -1,5 +1,4 @@
 package Autokey;
-import java.lang.*;
 import java.util.*;
 
 public class AutoKey {
@@ -9,7 +8,7 @@ public class AutoKey {
     public static void main(String[] args)
     {
         String plainText = ""; //plaintext
-        String primer = ""; //primer
+        String primer = ""; //primHer
 
         Scanner skaneri = new Scanner(System.in);
 
@@ -19,6 +18,8 @@ public class AutoKey {
 
             System.out.println("Jepni primer per enkriptim: ");
             primer = skaneri.nextLine();
+
+            skaneri.close();
 
             // Nese ka vetem numra, kthehet ne shkronje
             if (primer.matches("\\d+")) {

@@ -1,6 +1,6 @@
 
-text="hello"
-key="key"
+text=""
+key=""
 
 def encrypt(plaintext,key):
     textlen=len(plaintext)
@@ -92,6 +92,11 @@ def decrypt(cipher,key):
 
 
 
-ciphertext=encrypt(text,key)
-print(ciphertext)
-palintext=decrypt(ciphertext,key)
+plaintext = input("Jepni tekstin per enkriptim: ")
+key = input("Jepni celesin: ")
+
+encrypted = encrypt(plaintext, key)
+decrypted = decrypt(encrypted, key)
+
+print("Teksti i enkriptuar:", encrypted)
+print("Teksti i dekriptuar:", decrypted)
