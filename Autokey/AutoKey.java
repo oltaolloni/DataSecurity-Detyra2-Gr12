@@ -7,8 +7,8 @@ public class AutoKey {
 
     public static void main(String[] args)
     {
-        String plainText = ""; //plaintext
-        String primer = ""; //primHer
+        String plainText = ""; 
+        String primer = ""; 
 
         Scanner skaneri = new Scanner(System.in);
 
@@ -38,6 +38,10 @@ public class AutoKey {
                 System.out.println("Kujdes! Vendosni vetem numra ose vetem shkronja si primer!");
             }
         }
+
+        //Qe me mujt me e dhon edhe plaintext me tvogla
+        if(!plainText.matches(plainText.toUpperCase()))
+        plainText = plainText.toUpperCase();
 
         String cipherText = autoEncryption(plainText, primer);
 
