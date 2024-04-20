@@ -8,57 +8,72 @@ public class AutoKey {
 
     public static void main(String[] args)
     {
-        String msg = "";
-        String key = "";
+        String plainText = ""; //plaintext
+        String primer = ""; //primer
 
         Scanner skaneri = new Scanner(System.in);
-        System.out.println("Jepni tekstin per enkriptim: ");
-        msg = skaneri.nextLine();
 
-        System.out.println("Jepni celesin per enkriptim: ");
-        key = skaneri.nextLine();
+        while (true) {
+            System.out.println("Jepni tekstin per enkriptim: ");
+            plainText = skaneri.nextLine();
 
-        // Java RegEx
-        if (key.matches("[-+]?\\d*\\.?\\d+"))
-            key = "" + alphabet.charAt(Integer.parseInt(key));
-        String cipherText = autoEncryption(msg, key);
+            System.out.println("Jepni primer per enkriptim: ");
+            primer = skaneri.nextLine();
+
+            // Nese ka vetem numra, kthehet ne shkronje
+            if (primer.matches("\\d+")) {
+                    int num = Integer.parseInt(primer);
+                    primer = "" + alphabet.charAt((num - 1)%26);
+                    break;
+            }
+            // Nese vetem shkronja
+            else if (primer.matches("[a-zA-Z]+")) {
+                // Shkronjat e vogla kthehen ne uppercase
+                if (!primer.equals(primer.toUpperCase())) {
+                    primer = primer.toUpperCase();
+                }
+                break;
+            } else {
+                System.out.println("Kujdes! Vendosni vetem numra ose vetem shkronja si primer!");
+            }
+        }
+
+        String cipherText = autoEncryption(plainText, primer);
 
         System.out.println("Teksti i enkriptuar: " + cipherText);
-        System.out.println("Teksti i dekriptuar: " + autoDecryption(cipherText, key));
+        System.out.println("Teksti i dekriptuar: " + autoDecryption(cipherText, primer));
     }
 
-    public static String autoEncryption(String msg, String key)
+    public static String autoEncryption(String plainText, String primer)
     {
-        int len = msg.length();
+        // gjenerimi i celesit nga primer
+        String newKey = primer.concat(plainText);
+        newKey = newKey.substring(0, newKey.length() - primer.length());
+        String cipherText = "";
 
-        // generating the keystream
-        String newKey = key.concat(msg);
-        newKey = newKey.substring(0, newKey.length() - key.length());
-        String encryptMsg = "";
-
-        // applying encryption algorithm
-        for (int x = 0; x < len; x++) {
-            int first = alphabet.indexOf(msg.charAt(x));
-            int second = alphabet.indexOf(newKey.charAt(x));
-            int total = (first + second) % 26;
-            encryptMsg += alphabet.charAt(total);
+        // algoritmi per enkriptim
+        for (int i = 0; i < plainText.length(); i++) {
+            int plainLetter = alphabet.indexOf(plainText.charAt(i)); //shkronja e plaintext
+            int keyLetter = alphabet.indexOf(newKey.charAt(i)); //shkronja perkatese e celesit
+            int cipherLetter = (plainLetter + keyLetter) % 26; //mbledhen
+            cipherText += alphabet.charAt(cipherLetter); //shkronja perkatese e ciphertext
         }
-        return encryptMsg;
+        return cipherText;
     }
 
-    public static String autoDecryption(String msg, String key)
+    public static String autoDecryption(String cipherText, String primer)
     {
-        String currentKey = key;
-        String decryptMsg = "";
+        String currentKey = primer;
+        String decryptedText = "";
 
-        for (int x = 0; x < msg.length(); x++) {
-            int get1 = alphabet.indexOf(msg.charAt(x));
-            int get2 = alphabet.indexOf(currentKey.charAt(x));
-            int total = (get1 - get2) % 26;
-            total = (total < 0) ? total + 26 : total;
-            decryptMsg += alphabet.charAt(total);
-            currentKey += alphabet.charAt(total);
+        for (int i = 0; i < cipherText.length(); i++) {
+            int cipherLetter = alphabet.indexOf(cipherText.charAt(i));
+            int primerLetter = alphabet.indexOf(currentKey.charAt(i));
+            int plainLetter = (cipherLetter - primerLetter) % 26;
+            plainLetter  = (plainLetter  < 0) ? plainLetter  + 26 : plainLetter;
+            decryptedText += alphabet.charAt(plainLetter );
+            currentKey += alphabet.charAt(plainLetter);
         }
-        return decryptMsg;
+        return decryptedText;
     }
 }
