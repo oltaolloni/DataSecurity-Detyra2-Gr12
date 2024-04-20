@@ -1,5 +1,5 @@
 # Siguria e të Dhënave: Implementimi i Algoritmeve të Enkriptimit
-Ky repository përmban implementimet e dy algoritmeve të njohura të cipherit: Autokey Cipher në Java dhe Redefence Cipher në Python, të realizuara si pjesë e detyrës në lëndën Siguria e të Dhënave.
+Ky repository përmban implementimet e dy algoritmeve të enkriptimit: Autokey Cipher në Java dhe Redefence Cipher në Python, të realizuara si pjesë e detyrës në lëndën Siguria e të Dhënave.
 
 ## Përmbajtja
 * Përshkrimi i Algoritmeve
