@@ -1,4 +1,3 @@
-import numpy as np
 
 text="hello"
 key="key"
@@ -59,10 +58,40 @@ def encrypt(plaintext,key):
 def decrypt(cipher,key):
     textlen = len(cipher)
     rows = len(key)
-    matrica = [['' for _ in range(textlen)] for _ in range(rows)]#[e,l],[h,o],[l]
-    dict = {}
-    direction = True
-    #TODO
+    rail = [['' for _ in range(textlen)] for _ in range(rows)]#[e,l],[h,o],[l]
+    #TODO me gjet ni metode qe e bon secilin varg mrenda matrices me sa vlera duhet me i pas
+    row, col =0 ,0
+    for i in range(len(cipher)):
+        if row == 0:
+            dir_down = True
+        if row == rows - 1:
+            dir_down = False
+
+        # place the marker
+        rail[row][col] = '*'
+        col += 1
+
+        # find the next row
+        # using direction flag
+        if dir_down:
+            row += 1
+        else:
+            row -= 1
+    cindex=0
+    for r in range(rows):
+        for i in range(len(cipher)):
+            if rail[r][i]=="*":
+                rail[r][i]=cipher[cindex]
+                cindex+=1
+
+    dict={}
+    index =0
+    for i, char in enumerate(sorted(key)):
+        dict[char]=rail[i]
+
+
+
 
 ciphertext=encrypt(text,key)
 print(ciphertext)
+palintext=decrypt(ciphertext,key)
