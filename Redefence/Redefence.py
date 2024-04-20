@@ -1,7 +1,4 @@
 
-text=""
-key=""
-
 def encrypt(plaintext,key):
     textlen=len(plaintext)
     rows= len(key)
@@ -22,7 +19,7 @@ def encrypt(plaintext,key):
                         cindex += 1
                         index+=1
                         direction=False
-                    elif cindex == len(text) - 1:
+                    elif cindex == len(plaintext) - 1:
                         matrica[i][index] = plaintext[cindex]
                         break
                     else:
@@ -58,8 +55,8 @@ def encrypt(plaintext,key):
 def decrypt(cipher,key):
     textlen = len(cipher)
     rows = len(key)
-    rail = [['' for _ in range(textlen)] for _ in range(rows)]#[e,l],[h,o],[l]
-    #TODO me gjet ni metode qe e bon secilin varg mrenda matrices me sa vlera duhet me i pas
+    rail = [['' for _ in range(textlen)] for _ in range(rows)]
+
     row, col =0 ,0
     for i in range(len(cipher)):
         if row == 0:
@@ -67,30 +64,54 @@ def decrypt(cipher,key):
         if row == rows - 1:
             dir_down = False
 
-        # place the marker
+
         rail[row][col] = '*'
         col += 1
 
-        # find the next row
-        # using direction flag
+
         if dir_down:
             row += 1
         else:
             row -= 1
-    cindex=0
-    for r in range(rows):
-        for i in range(len(cipher)):
-            if rail[r][i]=="*":
-                rail[r][i]=cipher[cindex]
-                cindex+=1
+
 
     dict={}
-    index =0
-    for i, char in enumerate(sorted(key)):
+    for i, char in enumerate((key)):
         dict[char]=rail[i]
 
+    sorted_dict = {key: dict[key] for key in sorted(dict)}
+    sortrail=list(sorted_dict.values())
+    cindex=0
 
 
+    for r in range(rows):
+        for i in range(len(cipher)):
+            if sortrail[r][i]=="*":
+                sortrail[r][i]=cipher[cindex]
+                cindex+=1
+
+    for i, char in enumerate(sorted(key)):
+        sorted_dict[char] = sortrail[i]
+        dict[char]=sorted_dict[char]
+    rail=list(dict.values())
+    plaintext=""
+
+    row, col = 0, 0
+    for i in range(len(cipher)):
+        if row == 0:
+            dir_down = True
+        if row == rows - 1:
+            dir_down = False
+
+
+        plaintext+=rail[row][col]
+        col += 1
+
+        if dir_down:
+            row += 1
+        else:
+            row -= 1
+    return plaintext
 
 plaintext = input("Jepni tekstin per enkriptim: ")
 key = input("Jepni celesin: ")
